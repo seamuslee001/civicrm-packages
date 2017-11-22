@@ -16,9 +16,9 @@
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @copyright   2001-2009 The PHP Group
+ * @copyright   2001-2011 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: text.php,v 1.7 2009/04/04 21:34:04 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -34,7 +34,7 @@ require_once 'HTML/QuickForm/input.php';
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @version     Release: 3.2.11
+ * @version     Release: 3.2.14
  * @since       1.0
  */
 class HTML_QuickForm_text extends HTML_QuickForm_input
@@ -53,9 +53,9 @@ class HTML_QuickForm_text extends HTML_QuickForm_input
      * @access    public
      * @return    void
      */
-    function __construct($elementName=null, $elementLabel=null, $attributes=null)
+    function HTML_QuickForm_text($elementName=null, $elementLabel=null, $attributes=null)
     {
-        parent::__construct($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_input::HTML_QuickForm_input($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->setType('text');
     } //end constructor

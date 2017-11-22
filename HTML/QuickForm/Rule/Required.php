@@ -15,9 +15,9 @@
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @copyright   2001-2009 The PHP Group
+ * @copyright   2001-2011 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: Required.php,v 1.6 2009/04/04 21:34:04 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -32,7 +32,7 @@ require_once 'HTML/QuickForm/Rule.php';
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @version     Release: 3.2.11
+ * @version     Release: 3.2.14
  * @since       3.2
  */
 class HTML_QuickForm_Rule_Required extends HTML_QuickForm_Rule
@@ -47,29 +47,8 @@ class HTML_QuickForm_Rule_Required extends HTML_QuickForm_Rule
      */
     function validate($value, $options = null)
     {
-        if ( is_array( $value ) ) {
-            // check if file type, if so permit empty type
-            $fileType =
-                array_key_exists( 'name', $value ) &&
-                array_key_exists( 'tmp_name', $value );
-            // hack to fix required issue with advcheckbox, but in general if any value is present then
-            // it should pass required check 
-            $return = false;    
-            foreach ( $value as $k => $v ) {
-                // dont check type field. Safari3 Beta does not set this
-                if ( $fileType && $k == 'type' ) {
-                    continue;
-                }
-                if ( is_array($v) ) {
-                    if ( $v ) {
-                        $return = true;
-                    }
-                }
-                elseif ( ( string ) $v != '' ) {
-                    $return = true;
-                }
-            }
-            return $return;
+        if (is_array($value)) {
+            return (bool) $value;
         } else if ((string)$value == '') {
             return false;
         }

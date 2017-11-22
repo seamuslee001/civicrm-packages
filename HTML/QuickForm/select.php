@@ -17,9 +17,9 @@
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @author      Alexey Borzov <avb@php.net>
- * @copyright   2001-2009 The PHP Group
+ * @copyright   2001-2011 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: select.php,v 1.34 2009/04/04 21:34:04 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -36,7 +36,7 @@ require_once 'HTML/QuickForm/element.php';
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @author      Alexey Borzov <avb@php.net>
- * @version     Release: 3.2.11
+ * @version     Release: 3.2.14
  * @since       1.0
  */
 class HTML_QuickForm_select extends HTML_QuickForm_element {
@@ -75,9 +75,9 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
      * @access    public
      * @return    void
      */
-    function __construct($elementName=null, $elementLabel=null, $options=null, $attributes=null)
+    function HTML_QuickForm_select($elementName=null, $elementLabel=null, $options=null, $attributes=null)
     {
-        parent::__construct($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_type = 'select';
         if (isset($options)) {
@@ -403,7 +403,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
     {
         if (is_string($conn)) {
             require_once('DB.php');
-            $dbConn = DB::connect($conn, true);
+            $dbConn = &DB::connect($conn, true);
             if (DB::isError($dbConn)) {
                 return $dbConn;
             }
@@ -521,12 +521,10 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
         $value = array();
         if (is_array($this->_values)) {
             foreach ($this->_values as $key => $val) {
-                if ( $val || is_numeric($val) ) {
-                    foreach ($this->_options as $oKey => $oVal ) {
-                        if (0 == strcmp($val, $this->_options[$oKey]['attr']['value'])) {
-                            $value[$key] = $oVal['text'];
-                            break;
-                        }
+                for ($i = 0, $optCount = count($this->_options); $i < $optCount; $i++) {
+                    if (0 == strcmp($val, $this->_options[$i]['attr']['value'])) {
+                        $value[$key] = $this->_options[$i]['text'];
+                        break;
                     }
                 }
             }
@@ -563,9 +561,7 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
     {
         $value = $this->_findValue($submitValues);
         if (is_null($value)) {
-            // if value is null, default value is set for advselect
-            // fix for CRM-1431 - kurund
-            //$value = $this->getValue();
+            $value = $this->getValue();
         } elseif(!is_array($value)) {
             $value = array($value);
         }
@@ -580,19 +576,10 @@ class HTML_QuickForm_select extends HTML_QuickForm_element {
                 }
             }
         } else {
-            //if value is null make it empty array, checked most of
-            // the stuff, value is null for advselect
-            // fix for CRM-1431 - kurund
-            if (is_null($value)) { 
-                $cleanValue = array();
-            } else {
-                $cleanValue = $value;
-            }
+            $cleanValue = $value;
         }
         if (is_array($cleanValue) && !$this->getMultiple()) {
-            if ( isset( $cleanValue[0] ) ) {
-                return $this->_prepareValue($cleanValue[0], $assoc);
-            }
+            return $this->_prepareValue($cleanValue[0], $assoc);
         } else {
             return $this->_prepareValue($cleanValue, $assoc);
         }

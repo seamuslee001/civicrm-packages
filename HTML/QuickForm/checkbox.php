@@ -17,9 +17,9 @@
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @author      Alexey Borzov <avb@php.net>
- * @copyright   2001-2009 The PHP Group
+ * @copyright   2001-2011 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: checkbox.php,v 1.23 2009/04/04 21:34:02 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -36,7 +36,7 @@ require_once 'HTML/QuickForm/input.php';
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @author      Alexey Borzov <avb@php.net>
- * @version     Release: 3.2.11
+ * @version     Release: 3.2.14
  * @since       1.0
  */
 class HTML_QuickForm_checkbox extends HTML_QuickForm_input
@@ -66,19 +66,9 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      * @access    public
      * @return    void
      */
-    function __construct($elementName=null, $elementLabel=null, $text='', $attributes=null)
+    function HTML_QuickForm_checkbox($elementName=null, $elementLabel=null, $text='', $attributes=null)
     {
-        //hack to add 'id' for checkbox
-        if ( !$attributes ) {
-            $attributes = array( 'id' => $elementName );
-        } else {
-            // set element id only if its not set
-            if ( !isset( $attributes['id'] ) ) { 
-                $attributes['id'] = $elementName;
-            }
-        }
-
-        parent::__construct($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_input::HTML_QuickForm_input($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_text = $text;
         $this->setType('checkbox');
@@ -133,17 +123,13 @@ class HTML_QuickForm_checkbox extends HTML_QuickForm_input
      */
     function toHtml()
     {
-        $attributes = $this->getAttributes();
-
         if (0 == strlen($this->_text)) {
             $label = '';
-        } elseif ($this->_flagFrozen || isset( $attributes['skiplabel']) ) {
+        } elseif ($this->_flagFrozen) {
             $label = $this->_text;
         } else {
             $label = '<label for="' . $this->getAttribute('id') . '">' . $this->_text . '</label>';
         }
-
-        unset( $attributes['skipLabel'] );
         return HTML_QuickForm_input::toHtml() . $label;
     } //end func toHtml
     

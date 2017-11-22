@@ -16,9 +16,9 @@
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @copyright   2001-2009 The PHP Group
+ * @copyright   2001-2011 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: link.php,v 1.4 2009/04/04 21:34:04 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -34,7 +34,7 @@ require_once 'HTML/QuickForm/static.php';
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @version     Release: 3.2.11
+ * @version     Release: 3.2.14
  * @since       2.0
  */
 class HTML_QuickForm_link extends HTML_QuickForm_static
@@ -65,9 +65,9 @@ class HTML_QuickForm_link extends HTML_QuickForm_static
      * @return    void
      * @throws    
      */
-    function __construct($elementName=null, $elementLabel=null, $href=null, $text=null, $attributes=null)
+    function HTML_QuickForm_link($elementName=null, $elementLabel=null, $href=null, $text=null, $attributes=null)
     {
-        parent::__construct($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = false;
         $this->_type = 'link';
         $this->setHref($href);

@@ -18,9 +18,9 @@
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @author      Thomas Schulz <ths@4bconsult.de>
- * @copyright   2001-2009 The PHP Group
+ * @copyright   2001-2011 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: Array.php,v 1.11 2009/04/04 21:34:04 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -109,7 +109,7 @@ require_once 'HTML/QuickForm/Renderer.php';
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
  * @author      Thomas Schulz <ths@4bconsult.de>
- * @version     Release: 3.2.11
+ * @version     Release: 3.2.14
  * @since       3.0
  */
 class HTML_QuickForm_Renderer_Array extends HTML_QuickForm_Renderer
@@ -168,9 +168,9 @@ class HTML_QuickForm_Renderer_Array extends HTML_QuickForm_Renderer
     * @param  bool    true: render an array of labels to many labels, $key 0 to 'label' and the oterh to "label_$key"
     * @access public
     */
-    function __construct($collectHidden = false, $staticLabels = false)
+    function HTML_QuickForm_Renderer_Array($collectHidden = false, $staticLabels = false)
     {
-        parent::__construct();
+        $this->HTML_QuickForm_Renderer();
         $this->_collectHidden = $collectHidden;
         $this->_staticLabels  = $staticLabels;
     } // end constructor
@@ -226,16 +226,12 @@ class HTML_QuickForm_Renderer_Array extends HTML_QuickForm_Renderer
     } // end func renderElement
 
 
-    function renderHidden(&$element, $required = FALSE, $error = FALSE)
+    function renderHidden(&$element)
     {
         if ($this->_collectHidden) {
-            // add to error array 
-            if (!empty($error)) { 
-                $this->_ary['errors']['hidden'] = $error; 
-            } 
             $this->_ary['hidden'] .= $element->toHtml() . "\n";
         } else {
-            $this->renderElement($element, $required, $error);
+            $this->renderElement($element, false, null);
         }
     } // end func renderHidden
 
@@ -275,12 +271,6 @@ class HTML_QuickForm_Renderer_Array extends HTML_QuickForm_Renderer
             'required'  => $required,
             'error'     => $error
         );
-
-        $id = $element->getAttribute('id');
-        if ( $id ) {
-            $ret['id'] = $id;
-        }
-
         // render label(s)
         $labels = $element->getLabel();
         if (is_array($labels) && $this->_staticLabels) {

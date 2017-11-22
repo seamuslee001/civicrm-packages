@@ -3,7 +3,7 @@
 
 /**
  * HTML class for a radio type element
- *
+ * 
  * PHP versions 4 and 5
  *
  * LICENSE: This source file is subject to version 3.01 of the PHP license
@@ -16,9 +16,9 @@
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @copyright   2001-2009 The PHP Group
+ * @copyright   2001-2011 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: radio.php,v 1.20 2009/04/04 21:34:04 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -29,12 +29,12 @@ require_once 'HTML/QuickForm/input.php';
 
 /**
  * HTML class for a radio type element
- *
+ * 
  * @category    HTML
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @version     Release: 3.2.11
+ * @version     Release: 3.2.14
  * @since       1.0
  */
 class HTML_QuickForm_radio extends HTML_QuickForm_input
@@ -54,7 +54,7 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
 
     /**
      * Class constructor
-     *
+     * 
      * @param     string    Input field name attribute
      * @param     mixed     Label(s) for a field
      * @param     string    Text to display near the radio
@@ -64,39 +64,24 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
      * @access    public
      * @return    void
      */
-    function __construct($elementName=null, $elementLabel=null, $text=null, $value=null, $attributes=null)
+    function HTML_QuickForm_radio($elementName=null, $elementLabel=null, $text=null, $value=null, $attributes=null)
     {
-
-        parent::__construct($elementName, $elementLabel, $attributes);
+        $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         if (isset($value)) {
             $this->setValue($value);
         }
         $this->_persistantFreeze = true;
         $this->setType('radio');
         $this->_text = $text;
-        // $this->_generateId();
-        if ( ! $this->getAttribute('id') ) {
-            //hack to add 'id' for radio
-            static $idTextStr = 1;
-            if (CRM_Utils_Array::value('id_suffix', $attributes)) {
-              $idSuffix =  $attributes['id_suffix'];
-              $this->removeAttribute('id_suffix');
-            }
-            else {
-              $idSuffix = $idTextStr;
-              $idTextStr++;
-            }
-
-            $this->updateAttributes( array('id' => CRM_Utils_String::munge( "CIVICRM_QFID_{$value}_{$idSuffix}" ) ) );
-        }
+        $this->_generateId();
     } //end constructor
-
+    
     // }}}
     // {{{ setChecked()
 
     /**
      * Sets whether radio button is checked
-     *
+     * 
      * @param     bool    $checked  Whether the field is checked or not
      * @since     1.0
      * @access    public
@@ -116,7 +101,7 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
 
     /**
      * Returns whether radio button is checked
-     *
+     * 
      * @since     1.0
      * @access    public
      * @return    string
@@ -125,13 +110,13 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
     {
         return $this->getAttribute('checked');
     } //end func getChecked
-
+        
     // }}}
     // {{{ toHtml()
 
     /**
      * Returns the radio element in HTML
-     *
+     * 
      * @since     1.0
      * @access    public
      * @return    string
@@ -147,13 +132,13 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
         }
         return HTML_QuickForm_input::toHtml() . $label;
     } //end func toHtml
-
+    
     // }}}
     // {{{ getFrozenHtml()
 
     /**
      * Returns the value of field without HTML tags
-     *
+     * 
      * @since     1.0
      * @access    public
      * @return    string
@@ -173,7 +158,7 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
 
     /**
      * Sets the radio text
-     *
+     * 
      * @param     string    $text  Text to display near the radio button
      * @since     1.1
      * @access    public
@@ -188,8 +173,8 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
     // {{{ getText()
 
     /**
-     * Returns the radio text
-     *
+     * Returns the radio text 
+     * 
      * @since     1.1
      * @access    public
      * @return    string
@@ -217,13 +202,11 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
         switch ($event) {
             case 'updateValue':
                 // constant values override both default and submitted ones
+                // default values are overriden by submitted
                 $value = $this->_findValue($caller->_constantValues);
                 if (null === $value) {
-                    // we should retrieve value from submitted values when form is submitted,
-                    // else set value from defaults values
-                    if ( $caller->isSubmitted( ) ) {
-                        $value = $this->_findValue($caller->_submitValues);
-                    } else {
+                    $value = $this->_findValue($caller->_submitValues);
+                    if (null === $value) {
                         $value = $this->_findValue($caller->_defaultValues);
                     }
                 }
@@ -256,16 +239,13 @@ class HTML_QuickForm_radio extends HTML_QuickForm_input
     {
         $value = $this->_findValue($submitValues);
         if (null === $value) {
-            // fix to return blank value when all radio's are unselected / not selected
-            // always use submitted values rather than defaults
-            //$value = $this->getChecked()? $this->getValue(): null;
-            $value = '';
+            $value = $this->getChecked()? $this->getValue(): null;
         } elseif ($value != $this->getValue()) {
             $value = null;
         }
         return $this->_prepareValue($value, $assoc);
     }
-
+    
     // }}}
 } //end class HTML_QuickForm_radio
 ?>

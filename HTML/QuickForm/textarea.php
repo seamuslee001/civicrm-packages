@@ -16,9 +16,9 @@
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @copyright   2001-2009 The PHP Group
+ * @copyright   2001-2011 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: textarea.php,v 1.13 2009/04/04 21:34:04 avb Exp $
+ * @version     CVS: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm
  */
 
@@ -34,7 +34,7 @@ require_once 'HTML/QuickForm/element.php';
  * @package     HTML_QuickForm
  * @author      Adam Daniel <adaniel1@eesus.jnj.com>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @version     Release: 3.2.11
+ * @version     Release: 3.2.14
  * @since       1.0
  */
 class HTML_QuickForm_textarea extends HTML_QuickForm_element
@@ -62,9 +62,9 @@ class HTML_QuickForm_textarea extends HTML_QuickForm_element
      * @access    public
      * @return    void
      */
-    function __construct($elementName=null, $elementLabel=null, $attributes=null)
+    function HTML_QuickForm_textarea($elementName=null, $elementLabel=null, $attributes=null)
     {
-        parent::__construct($elementName, $elementLabel, $attributes);
+        HTML_QuickForm_element::HTML_QuickForm_element($elementName, $elementLabel, $attributes);
         $this->_persistantFreeze = true;
         $this->_type = 'textarea';
     } //end constructor
@@ -197,7 +197,7 @@ class HTML_QuickForm_textarea extends HTML_QuickForm_element
             return $this->_getTabs() .
                    '<textarea' . $this->_getAttrString($this->_attributes) . '>' .
                    // because we wrap the form later we don't want the text indented
-                   preg_replace("/(\r\n|\n|\r)/", '&#013;&#010;', htmlspecialchars($this->_value)) .
+                   preg_replace("/(\r\n|\n|\r)/", '&#010;', htmlspecialchars($this->_value)) .
                    '</textarea>';
         }
     } //end func toHtml
