@@ -15,9 +15,9 @@
  * @category    HTML
  * @package     HTML_QuickForm_Controller
  * @author      Alexey Borzov <avb@php.net>
- * @copyright   2003-2007 The PHP Group
+ * @copyright   2003-2009 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: Jump.php,v 1.6 2008/07/22 11:05:20 avb Exp $
+ * @version     SVN: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm_Controller
  */
 
@@ -32,7 +32,7 @@ require_once 'HTML/QuickForm/Action.php';
  * @category    HTML
  * @package     HTML_QuickForm_Controller
  * @author      Alexey Borzov <avb@php.net>
- * @version     Release: 1.0.9
+ * @version     Release: 1.0.10
  */
 class HTML_QuickForm_Action_Jump extends HTML_QuickForm_Action
 {
@@ -102,7 +102,7 @@ class HTML_QuickForm_Action_Jump extends HTML_QuickForm_Action
     */
     function _resolveRelativeURL($url)
     {
-        $https  = !empty($_SERVER['HTTPS']) && ('off' != $_SERVER['HTTPS']);
+        $https  = !empty($_SERVER['HTTPS']) && ('off' != strtolower($_SERVER['HTTPS']));
         $scheme = ($https? 'https:': 'http:');
         if ('//' == substr($url, 0, 2)) {
             return $scheme . $url;

@@ -16,9 +16,9 @@
  * @package     HTML_QuickForm_Controller
  * @author      Alexey Borzov <avb@php.net>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @copyright   2003-2007 The PHP Group
+ * @copyright   2003-2009 The PHP Group
  * @license     http://www.php.net/license/3_01.txt PHP License 3.01
- * @version     CVS: $Id: Controller.php,v 1.13 2007/05/18 09:34:18 avb Exp $
+ * @version     SVN: $Id$
  * @link        http://pear.php.net/package/HTML_QuickForm_Controller
  */
 
@@ -40,7 +40,7 @@ require_once 'HTML/QuickForm/Page.php';
  * @package     HTML_QuickForm_Controller
  * @author      Alexey Borzov <avb@php.net>
  * @author      Bertrand Mansion <bmansion@mamasam.com>
- * @version     Release: 1.0.9
+ * @version     Release: 1.0.10
  */
 class HTML_QuickForm_Controller
 {
